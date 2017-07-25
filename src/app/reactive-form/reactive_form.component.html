@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row margin-top-fix">
+    <form class="col s10 offset-s2" action="" (ngSubmit)="save()" [formGroup]="customerForm">
+
+      <div class="row">
+          <div class="input-field col s5">
+            <input type="text" class="" id="firstName" formControlName="firstName"
+                   [ngClass]="{'validate': (customerForm.get('firstName').touched ||
+                                              customerForm.get('firstName').dirty) &&
+                                              !customerForm.get('firstName').valid }">
+            <label for="firstName">First Name</label>
+
+            <span class="help-block" *ngIf="(customerForm.get('firstName').touched ||
+                                             customerForm.get('firstName').dirty) &&
+                                             customerForm.get('firstName').errors">
+               <span *ngIf="customerForm.get('firstName').getError('minlength')">
+                      Please enter your first name.
+               </span>
+               <span *ngIf="customerForm.get('firstName').errors">
+                       The first name must be longer than 3 characters.
+               </span>
+            </span>
+
+          </div>
+          <div class="input-field col s5">
+            <input type="text" class="validate" id="lastName" formControlName="lastName">
+            <label for="lastName">Last Name</label>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s10">
+          <input type="text" class="validate blue-text" id="email" formControlName="email">
+          <label for="email" data-error="wrong" data-success="right">Email</label>
+        </div>
+      </div>
+
+      <p>
+        <input type="checkbox" id="sendCatalog" formControlName="sendCatalog"/>
+        <label for="sendCatalog">Send Catalog</label>
+      </p>
+
+      <div class="row center-align">
+        <div class="col s10">
+          <button type="submit" [disabled]="!customerForm.valid" class="btn blue waves-effect waves-light">Enviar</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <p>Dirty: {{customerForm.dirty}}</p>
+      <p>Touched: {{customerForm.touched}}</p>
+      <p>Valid: {{customerForm.valid}}</p>
+      <p>Value: {{customerForm.value | json}}</p>
+    </div>
+  </div>
+</div>
