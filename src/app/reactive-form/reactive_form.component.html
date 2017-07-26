@@ -8,41 +8,76 @@
                    [ngClass]="{'validate': (customerForm.get('firstName').touched ||
                                               customerForm.get('firstName').dirty) &&
                                               !customerForm.get('firstName').valid }">
-            <label for="firstName">First Name</label>
-
-            <span class="help-block" *ngIf="(customerForm.get('firstName').touched ||
+            <label for="firstName">Nombre</label>
+            <span class="red-text" *ngIf="(customerForm.get('firstName').touched ||
                                              customerForm.get('firstName').dirty) &&
                                              customerForm.get('firstName').errors">
-               <span *ngIf="customerForm.get('firstName').getError('minlength')">
-                      Please enter your first name.
+               <span *ngIf="customerForm.get('firstName').errors">
+                      Ingrese su Nombre.
                </span>
                <span *ngIf="customerForm.get('firstName').errors">
-                       The first name must be longer than 3 characters.
+                       El Nombre tiene que tener 3 caracteres.
                </span>
             </span>
-
           </div>
+
           <div class="input-field col s5">
-            <input type="text" class="validate" id="lastName" formControlName="lastName">
-            <label for="lastName">Last Name</label>
+            <input type="text" class="" id="lastName" formControlName="lastName">
+            <label for="lastName">Apellido</label>
+            <span class="red-text" *ngIf="(customerForm.get('lastName').touched ||
+                                             customerForm.get('lastName').dirty) &&
+                                             customerForm.get('lastName').errors">
+               <span *ngIf="customerForm.get('lastName').errors">
+                      Ingrese su Apellido.
+               </span>
+               <span *ngIf="customerForm.get('lastName').errors">
+                       El Apellido tiene que tener 15 caracteres minimo.
+               </span>
+            </span>
           </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s10">
-          <input type="text" class="validate blue-text" id="email" formControlName="email">
-          <label for="email" data-error="wrong" data-success="right">Email</label>
+        <div class="input-field col s5">
+          <input type="text" [ngClass]="{'validate' : emailMessage}" id="email" formControlName="email">
+          <label for="email">Email</label>
+            <span class="red-text fix-padding-error" *ngIf="emailMessage">
+              {{ emailMessage }}
+            </span>
+        </div>
+
+        <div class="input-field col s5">
+          <input type="text" class="validate" id="phone" formControlName="phone">
+          <label for="phone" data-error="wrong" data-success="right">Telefono</label>
+          <span class="red-text" *ngIf="(customerForm.get('phone').touched ||
+                                             customerForm.get('phone').dirty) &&
+                                             customerForm.get('phone').errors">
+               <span *ngIf="customerForm.get('phone').errors">
+                      Ingrese su Telefono.
+               </span>
+               <span *ngIf="customerForm.get('phone').errors">
+                       Ingrese un Telefono Valido.
+               </span>
+            </span>
         </div>
       </div>
 
       <p>
+        <input type="radio" id="radioEmail" value="email" (click)="setNotification('email')" formControlName="notification" />
+        <label for="radioEmail">Email</label>
+        <input type="radio" id="radioPhone" value="text" (click)="setNotification('text')" formControlName="notification" />
+        <label for="radioPhone">Text</label>
+      </p>
+
+      <p>
         <input type="checkbox" id="sendCatalog" formControlName="sendCatalog"/>
-        <label for="sendCatalog">Send Catalog</label>
+        <label for="sendCatalog">Enviar Catalogo</label>
       </p>
 
       <div class="row center-align">
         <div class="col s10">
           <button type="submit" [disabled]="!customerForm.valid" class="btn blue waves-effect waves-light">Enviar</button>
+          <button type="button" (click)="fillFormWithData()" class="btn purple waves-effect waves-light">Test Data</button>
         </div>
       </div>
 
