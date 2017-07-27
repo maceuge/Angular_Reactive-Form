@@ -24,25 +24,18 @@
           <div class="input-field col s5">
             <input type="text" class="" id="lastName" formControlName="lastName">
             <label for="lastName">Apellido</label>
-            <span class="red-text" *ngIf="(customerForm.get('lastName').touched ||
-                                             customerForm.get('lastName').dirty) &&
-                                             customerForm.get('lastName').errors">
-               <span *ngIf="customerForm.get('lastName').errors">
-                      Ingrese su Apellido.
-               </span>
-               <span *ngIf="customerForm.get('lastName').errors">
-                       El Apellido tiene que tener 15 caracteres minimo.
-               </span>
+            <span class="red-text fix-padding-error" *ngIf="erorrMessage">
+              {{ erorrMessage }}
             </span>
           </div>
       </div>
 
       <div class="row">
         <div class="input-field col s5">
-          <input type="text" [ngClass]="{'validate' : emailMessage}" id="email" formControlName="email">
+          <input type="text" class="" id="email" formControlName="email">
           <label for="email">Email</label>
-            <span class="red-text fix-padding-error" *ngIf="emailMessage">
-              {{ emailMessage }}
+            <span class="red-text fix-padding-error" *ngIf="erorrMessage">
+              {{ erorrMessage }}
             </span>
         </div>
 

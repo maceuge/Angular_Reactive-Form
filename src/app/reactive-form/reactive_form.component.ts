@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/forms';
 import { Customer } from './customer';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'reactive-form',
@@ -13,12 +14,14 @@ export class ReactiveFormComponent implements OnInit{
   customerForm: FormGroup;
   customer: Customer = new Customer();
 
-  emailMessage: string;
+  erorrMessage: string;
 
   private validationMessages = {
     required: 'Este campo es obligatorio',
+    minLength: 'Tiene que tener minimo 3 caracteres',
+    maxLength: 'Solo hasta maximo de 15 caracteres',
     pattern: 'El email no es valido'
-  }
+  };
 
   constructor (private fb: FormBuilder) {}
 
@@ -36,25 +39,40 @@ export class ReactiveFormComponent implements OnInit{
     this.customerForm.get('notification').valueChanges
         .subscribe(value => console.log(value));
 
-    const emailControl = this.customerForm.get('email');
-          emailControl.valueChanges.subscribe(value => this.setMessage(emailControl));
+    // const emailControl = this.customerForm.get('email');
+    //       emailControl.valueChanges.debounceTime(3000).subscribe(value => this.setMessage(emailControl));
+
+    this.getFormControlKey();
 
   }
 
+  getFormControlKey () {
+    let keys = Object.keys(this.customerForm.controls);
+
+    for (let key of keys) {
+
+      const inputControl = this.customerForm.get(key);
+            inputControl.valueChanges.debounceTime(2000)
+              .subscribe(value => this.setMessage(inputControl));
+
+       console.log(key);
+    }
+  }
+
+
   setMessage (c: AbstractControl): void {
-    this.emailMessage = '';
+    this.erorrMessage = '';
       if ((c.touched || c.dirty) && c.errors) {
-          this.emailMessage = Object.keys(c.errors)
+          this.erorrMessage = Object.keys(c.errors)
             .map(key => this.validationMessages[key]).join(' ');
       }
+      console.log(c.value);
   }
 
   save () {
     console.log(this.customerForm);
     console.log('Guardado: ' + JSON.stringify(this.customerForm.value));
-    // this.clearForm();
-    // this.customerForm.reset();
-    // this.customerForm.clearValidators();
+    this.customerForm.reset();
   }
 
   setNotification (notifVia: string) :void {
@@ -65,20 +83,11 @@ export class ReactiveFormComponent implements OnInit{
       } else {
          phoneContol.clearValidators();
       }
-
       phoneContol.updateValueAndValidity();
   }
 
   fillFormWithData () {
-    document.getElementById('firstName').focus()
-
-    if (document.getElementById('firstName').focus()) {
-      document.getElementById('firstName').blur();
-      document.getElementById('lastName').focus();
-    }
-
-    // document.getElementById('lastName').focus();
-    // document.getElementById('email').focus();
+    document.getElementById('firstName').focus();
 
     this.customerForm.patchValue({
       firstName: 'Jason',
@@ -88,15 +97,5 @@ export class ReactiveFormComponent implements OnInit{
     });
   }
 
-  clearForm () {
-    this.customerForm.setValue({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      notification: 'email',
-      sendCatalog: false
-    });
-  }
 
 }
