@@ -3,15 +3,17 @@
     <form class="col s10 offset-s2" action="" (ngSubmit)="save()" [formGroup]="customerForm">
 
       <div class="row">
-          <div class="input-field col s5">
+        <!--<div [ngClass]="{ 'red': formErrors.firstName }">-->
+          <div class="input-field col s5"  [ngClass]="{ 'validate red lighten-5 error-input': formErrors.firstName }">
             <input type="text" class="" id="firstName" formControlName="firstName">
             <label for="firstName">Nombre</label>
             <span class="red-text error-text" *ngIf="formErrors.firstName">
               {{ formErrors.firstName }}
             </span>
           </div>
+        <!--</div>-->
 
-          <div class="input-field col s5">
+          <div class="input-field col s5"[ngClass]="{ 'validate red lighten-5 error-input': formErrors.lastName }">
             <input type="text" class="" id="lastName" formControlName="lastName">
             <label for="lastName">Apellido</label>
             <span class="red-text error-text" *ngIf="formErrors.lastName">
@@ -21,7 +23,7 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s5">
+        <div class="input-field col s5"[ngClass]="{ 'validate red lighten-5 error-input': formErrors.email }">
           <input type="text" class="" id="email" formControlName="email">
           <label for="email">Email</label>
             <span class="red-text error-text" *ngIf="formErrors.email">
@@ -29,9 +31,9 @@
             </span>
         </div>
 
-        <div class="input-field col s5">
+        <div class="input-field col s5" [ngClass]="{ 'validate red lighten-5 error-input': formErrors.phone }">
           <input type="text" class="validate" id="phone" formControlName="phone">
-          <label for="phone" data-error="Incorrecto" data-success="Correcto">Telefono</label>
+          <label for="phone" data-error="" data-success="formErrors.phone">Telefono</label>
           <span class="red-text error-text" *ngIf="formErrors.phone">
                {{ formErrors.phone }}
             </span>

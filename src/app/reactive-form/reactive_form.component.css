@@ -1,3 +1,7 @@
 .error-text {
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.error-input {
+  border-radius: 7px;
 }
