@@ -31,6 +31,8 @@ export class ReactiveFormComponent implements OnInit{
 
     // this.customerForm.get('notification').valueChanges
     //     .subscribe(value => console.log(value));
+    this.customerForm.get('notification').valueChanges
+        .subscribe(value => this.setNotification(value));
 
     // const emailControl = this.customerForm.get('email');
     //       emailControl.valueChanges.debounceTime(3000).subscribe(value => this.setMessage(emailControl));
@@ -39,7 +41,7 @@ export class ReactiveFormComponent implements OnInit{
     this.customerForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
 
-    this.onValueChanged();
+    // this.onValueChanged();
   }
 
 
@@ -47,19 +49,22 @@ export class ReactiveFormComponent implements OnInit{
     if (!this.customerForm) {
       return;
     }
+
     const form = this.customerForm;
     for (const field in this.formErrors) {
-      // limpio mensajes de error anteriores
-      this.formErrors[field] = '';
-      const control = form.get(field);
+      this.formErrors[field] = ''; // limpio mensajes de error anteriores
 
+      const control = form.get(field);
       if (control && control.dirty && !control.valid) {
+
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
         }
       }
     }
+
+    console.log(data);
   }
 
   formErrors = {
@@ -84,6 +89,7 @@ export class ReactiveFormComponent implements OnInit{
     },
     'phone': {
       'required': 'Telefono es requerido.',
+      'pattern': 'Solo admite numeros.'
     }
   };
 
@@ -94,11 +100,12 @@ export class ReactiveFormComponent implements OnInit{
     Materialize.updateTextFields();
   }
 
-  setNotification (notifVia: string) :void {
+  setNotification (notifVia: string) : void {
     const phoneContol = this.customerForm.get('phone');
 
       if (notifVia === 'text') {
          phoneContol.setValidators(Validators.required);
+         phoneContol.setValidators(Validators.pattern('^[0-9]+$'));
       } else {
          phoneContol.clearValidators();
       }

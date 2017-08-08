@@ -4,7 +4,7 @@
 
       <div class="row">
         <!--<div [ngClass]="{ 'red': formErrors.firstName }">-->
-          <div class="input-field col s5"  [ngClass]="{ 'validate red lighten-5 error-input': formErrors.firstName }">
+          <div class="input-field col s5">
             <input type="text" class="" id="firstName" formControlName="firstName">
             <label for="firstName">Nombre</label>
             <span class="red-text error-text" *ngIf="formErrors.firstName">
@@ -13,7 +13,7 @@
           </div>
         <!--</div>-->
 
-          <div class="input-field col s5"[ngClass]="{ 'validate red lighten-5 error-input': formErrors.lastName }">
+          <div class="input-field col s5">
             <input type="text" class="" id="lastName" formControlName="lastName">
             <label for="lastName">Apellido</label>
             <span class="red-text error-text" *ngIf="formErrors.lastName">
@@ -23,7 +23,7 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s5"[ngClass]="{ 'validate red lighten-5 error-input': formErrors.email }">
+        <div class="input-field col s5">
           <input type="text" class="" id="email" formControlName="email">
           <label for="email">Email</label>
             <span class="red-text error-text" *ngIf="formErrors.email">
@@ -31,9 +31,9 @@
             </span>
         </div>
 
-        <div class="input-field col s5" [ngClass]="{ 'validate red lighten-5 error-input': formErrors.phone }">
-          <input type="text" class="validate" id="phone" formControlName="phone">
-          <label for="phone" data-error="" data-success="formErrors.phone">Telefono</label>
+        <div class="input-field col s5">
+          <input type="text" class="" id="phone" formControlName="phone">
+          <label for="phone" data-error="" data-success="">Telefono</label>
           <span class="red-text error-text" *ngIf="formErrors.phone">
                {{ formErrors.phone }}
             </span>
@@ -41,9 +41,9 @@
       </div>
 
       <p>
-        <input type="radio" id="radioEmail" value="email" (click)="setNotification('email')" formControlName="notification" />
+        <input type="radio" id="radioEmail" value="email" (click)="setNotification($event)" formControlName="notification" />
         <label for="radioEmail">Email</label>
-        <input type="radio" id="radioPhone" value="text" (click)="setNotification('text')" formControlName="notification" />
+        <input type="radio" id="radioPhone" value="text" (click)="setNotification($event)" formControlName="notification" />
         <label for="radioPhone">Text</label>
       </p>
 
